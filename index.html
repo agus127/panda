@@ -2,173 +2,89 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panda Interaktif Lucu</title>
+  <title>Website Panda Lucu</title>
   <style>
     body {
-      font-family: 'Comic Sans MS', sans-serif;
-      background: linear-gradient(135deg, #FFB6C1, #FFD700, #87CEFA, #98FB98, #FF69B4);
-      background-size: 400% 400%;
-      animation: gradientBG 25s ease infinite;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    .container {
+      background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       text-align: center;
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 25px;
-      padding: 30px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
-      width: 650px;
-      max-width: 95%;
+      padding: 50px;
     }
-
     h1 {
-      font-size: 2em;
-      margin-bottom: 25px;
+      color: #FF6F61;
+      font-size: 2.5em;
     }
-
+    .question {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #333;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
     button {
+      padding: 15px 25px;
       font-size: 1.2em;
-      padding: 15px 30px;
       margin: 10px;
       border: none;
-      border-radius: 20px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.3s, background 0.3s;
     }
-
     button:hover {
       transform: scale(1.1);
     }
-
-    #yaBtn, #besokBtn, #dealBtn {
+    .yes {
       background-color: #4CAF50;
       color: white;
     }
-
-    #tidakBtn, #tahunDepanBtn, #tidakDealBtn {
+    .no {
       background-color: #f44336;
       color: white;
+      position: relative;
     }
-
-    #panda {
-      width: 100px;
+    .panda {
+      width: 200px;
+      margin-top: 30px;
+      transition: all 0.5s;
+    }
+    /* Animasi tombol tidak bergerak liar */
+    .no.moved {
       position: absolute;
-      transition: all 0.5s ease;
+      left: 70%;
+      top: 50%;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 id="pertanyaan">Kamu mau traktir aku makan nggak?</h1>
-    <div id="tombol1">
-      <button id="yaBtn">Ya</button>
-      <button id="tidakBtn">Tidak</button>
-    </div>
-    <img id="panda" src="https://i.ibb.co/2FZP5rW/panda.png" style="top: 180px; left: 50px;">
+
+  <h1>Selamat Datang!</h1>
+  <div class="question">Kamu mau traktir aku makan nggak?</div>
+
+  <div class="buttons">
+    <button class="yes" onclick="yesClicked()">Iya</button>
+    <button class="no" id="noBtn">Tidak</button>
   </div>
 
+  <img src="https://i.ibb.co/9sH0YpC/panda-happy.gif" id="panda" class="panda" alt="Panda Lucu">
+
   <script>
-    let step = 1;
-    const container = document.querySelector('.container');
-
-    function randomPosition(el) {
-      const x = Math.random() * 450;
-      const y = Math.random() * 250;
-      el.style.position = 'absolute';
-      el.style.left = x + 'px';
-      el.style.top = y + 'px';
-    }
-
-    function pandaJump(panda) {
-      panda.style.transform = "translateY(-20px)";
-      setTimeout(() => { panda.style.transform = "translateY(0px)"; }, 300);
-    }
-
-    function pandaSpin(panda) {
-      panda.style.transform = "rotate(360deg) scale(1.3)";
-      setTimeout(() => { panda.style.transform = "rotate(0deg) scale(1)"; }, 800);
-    }
-
+    const noBtn = document.getElementById('noBtn');
     const panda = document.getElementById('panda');
-    const tidakBtn = document.getElementById('tidakBtn');
 
-    tidakBtn.addEventListener('mouseenter', () => {
-      if (step === 1) {
-        randomPosition(tidakBtn);
-        panda.style.left = (parseFloat(tidakBtn.style.left) - 60) + 'px';
-        panda.style.top = tidakBtn.style.top;
-        pandaJump(panda);
-      }
+    // Tombol tidak bergerak kalau disentuh, panda tersenyum
+    noBtn.addEventListener('mouseover', () => {
+      const x = Math.random() * 300;
+      const y = Math.random() * 200;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      panda.src = "https://i.ibb.co/1z0hJxF/panda-angry.gif"; // Panda marah
     });
 
-    document.getElementById('yaBtn').addEventListener('click', () => {
-      step = 2;
-      container.innerHTML = `
-        <h1 id="pertanyaan">Kapan?</h1>
-        <button id="besokBtn">Besok</button>
-        <button id="tahunDepanBtn">Tahun Depan</button>
-        <img id="panda" src="https://i.ibb.co/2FZP5rW/panda.png" style="top: 180px; left: 50px;">
-      `;
-      initStep2();
-    });
-
-    function initStep2() {
-      const besokBtn = document.getElementById('besokBtn');
-      const tahunDepanBtn = document.getElementById('tahunDepanBtn');
-      const panda = document.getElementById('panda');
-
-      tahunDepanBtn.addEventListener('mouseenter', () => {
-        randomPosition(tahunDepanBtn);
-        panda.style.left = (parseFloat(tahunDepanBtn.style.left) - 60) + 'px';
-        panda.style.top = tahunDepanBtn.style.top;
-        pandaJump(panda);
-      });
-
-      besokBtn.addEventListener('click', () => {
-        step = 3;
-        container.innerHTML = `
-          <h1 id="pertanyaan">Oke kita deal?</h1>
-          <button id="dealBtn">Deal</button>
-          <button id="tidakDealBtn">Tidak Deal</button>
-          <img id="panda" src="https://i.ibb.co/2FZP5rW/panda.png" style="top: 180px; left: 50px;">
-        `;
-        initStep3();
-      });
-    }
-
-    function initStep3() {
-      const dealBtn = document.getElementById('dealBtn');
-      const tidakDealBtn = document.getElementById('tidakDealBtn');
-      const panda = document.getElementById('panda');
-
-      tidakDealBtn.addEventListener('mouseenter', () => {
-        randomPosition(tidakDealBtn);
-        panda.style.left = (parseFloat(tidakDealBtn.style.left) - 60) + 'px';
-        panda.style.top = tidakDealBtn.style.top;
-        pandaJump(panda);
-      });
-
-      dealBtn.addEventListener('click', () => {
-        panda.src = "https://i.ibb.co/4p0ZqR4/panda-smile.png";
-        pandaSpin(panda);
-        document.getElementById('pertanyaan').innerText = "Yeay! Kita deal! 🎉";
-        dealBtn.disabled = true;
-        tidakDealBtn.disabled = true;
-      });
+    function yesClicked() {
+      panda.src = "https://i.ibb.co/9sH0YpC/panda-happy.gif"; // Panda senyum
+      alert("Yeay! Panda senang! 🐼");
     }
   </script>
+
 </body>
 </html>
